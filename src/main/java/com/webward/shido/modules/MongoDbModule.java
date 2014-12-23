@@ -21,13 +21,13 @@ public class MongoDbModule implements Module {
     public void configure(Binder binder) {
         MongoClient mongo = null;
         Morphia morphia = new Morphia();
-        MongoCredential mongoCredential = MongoCredential.createMongoCRCredential("admin","boomer","password".toCharArray());
+        MongoCredential mongoCredential = MongoCredential.createMongoCRCredential("shido","shido","password".toCharArray());
         try {
             mongo = new MongoClient("localhost", 27017);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
-        Datastore ds = morphia.createDatastore(mongo, "boomer");
+        Datastore ds = morphia.createDatastore(mongo, "shido");
 
         binder.bind(MongoClient.class).annotatedWith(Names.named("shido-ds")).toInstance(mongo);
         binder.bind(Morphia.class).annotatedWith(Names.named("shido-ds")).toInstance(morphia);
