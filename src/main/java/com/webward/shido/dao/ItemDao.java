@@ -20,7 +20,7 @@ public class ItemDao extends BasicDAO<Item, ObjectId> {
 
     @Inject
     public ItemDao(@Named(value = "shido-ds") Morphia morphia, @Named(value = "shido-ds")MongoClient mongo ) {
-        super(mongo, morphia, "boomer");
+        super(mongo, morphia, "shido");
     }
 
 
