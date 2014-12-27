@@ -31,44 +31,21 @@ public class TestItems {
 
     private  static Server server;
 
-    @BeforeClass
-    public  static void before() throws Exception
+    public void clean(Client client)
     {
-        Injector injector = Guice.createInjector(new MainModule());
-        injector.getAllBindings();
-        injector.createChildInjector().getAllBindings();
-
-        server = new Server(9090);
-        ServletContextHandler servletHandler = new ServletContextHandler();
-        servletHandler.addEventListener(injector.getInstance(TestServletContextListener.class));
-
-        ServletHolder sh = new ServletHolder(HttpServletDispatcher.class);
-        servletHandler.addServlet(sh, "/*");
-
-        server.setHandler(servletHandler);
-        server.start();
-    }
-
-    @Test
-    public void testCrud()
-    {
-        Client client = ClientBuilder.newBuilder().build();
-        create(client);
         ItemDto itemDto = read(client);
-        Assert.assertTrue(itemDto.getName().equals("TestName"));
-        delete(client, itemDto);
-        itemDto = read(client);
-        Assert.assertNull(itemDto);
-        testAsyncGet( client);
+        if(itemDto!=null)
+        {
+            delete(client,itemDto);
+        }
     }
 
     public void create(Client client)
     {
-        System.out.println("create");
         ItemDto item = new ItemDto();
         item.setName("TestName");
 
-        WebTarget webTarget = client.target(getBaseURI()).path("items").path("create");
+        WebTarget webTarget = client.target(TestResources.baseUri).path("item").path("create");
         ItemDto itemDto = webTarget.request().post(Entity.entity(item, MediaType.APPLICATION_JSON),
                 ItemDto.class);
 
@@ -76,17 +53,22 @@ public class TestItems {
 
     public ItemDto read(Client client)
     {
-        WebTarget target = client.target(getBaseURI()).path("items").path("itemByName").path("TestName");
+        WebTarget target = client.target(TestResources.baseUri).path("item").path("getByName").path("TestName");
         Response response = target.request().get();
-        ItemDto value = response.readEntity(ItemDto.class);
-        return value;
+        if(response.getStatus()==204)
+        {
+            return null;
 
+        }else {
+            ItemDto value = response.readEntity(ItemDto.class);
+            return value;
+        }
     }
 
 
     public void delete(Client client,ItemDto itemDto)
     {
-        WebTarget target = client.target(getBaseURI()).path("items").path("deleteById").path(""+itemDto.getId());
+        WebTarget target = client.target(TestResources.baseUri).path("item").path("deleteById").path(""+itemDto.getId());
         Response response = target.request().delete();
         System.out.println(response);
     }
@@ -95,10 +77,9 @@ public class TestItems {
     {
 
         Future<Response> fb = client
-                .target(getBaseURI()).path("items").path("basic")
+                .target(TestResources.baseUri).path("item").path("basic")
                 .request()
                 .async().get();
-        System.out.println("blocks from here "+ LocalDateTime.now());
         try {
             Response response = fb.get();
             String value = response.readEntity(String.class);
@@ -107,21 +88,7 @@ public class TestItems {
         {
             e.printStackTrace();
         }
-        System.out.println("Done blocking from here "+ LocalDateTime.now());
     }
 
 
-    @AfterClass
-    public static void after() throws Exception
-    {
-        System.out.println("shutting down server");
-        server.stop();
-        System.out.println("test server stopped");
-
-    }
-
-    public String getBaseURI()
-    {
-        return "http://localhost:9090";
-    }
 }

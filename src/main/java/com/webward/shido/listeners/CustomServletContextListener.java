@@ -5,6 +5,7 @@ import com.google.inject.Module;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 import com.webward.shido.modules.MongoDbModule;
+import com.webward.shido.modules.PojoModule;
 import com.webward.shido.modules.ResourcesModule;
 import org.jboss.resteasy.plugins.guice.GuiceResteasyBootstrapServletContextListener;
 
@@ -18,20 +19,22 @@ import java.util.List;
 public class CustomServletContextListener extends GuiceResteasyBootstrapServletContextListener
 {
 
-    @Override
-    protected List<Module> getModules(ServletContext context)
-    {
-        List<Module> modules = new ArrayList<>();
-//        modules.add(new JpaPersistModule("test1234"));
-            modules.add(new MongoDbModule());
-        modules.add(new ResourcesModule());
-        return modules;
-    }
-
-    @Override
-    public void withInjector(Injector injector)
-    {
-
-//        injector.getInstance(PersistService.class).start();
-    }
+//    @Override
+//    protected List<Module> getModules(ServletContext context)
+//    {
+//        List<Module> modules = new ArrayList<>();
+////        modules.add(new JpaPersistModule("test1234"));
+//
+//        modules.add(new PojoModule());
+//        modules.add(new MongoDbModule());
+//        modules.add(new ResourcesModule());
+//        return modules;
+//    }
+//
+//    @Override
+//    public void withInjector(Injector injector)
+//    {
+//
+////        injector.getInstance(PersistService.class).start();
+//    }
 }

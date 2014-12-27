@@ -17,7 +17,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/items")
+@Path("/item")
 @Singleton
 public class ItemResource {
 
@@ -27,18 +27,16 @@ public class ItemResource {
     ItemDao itemDao;
 
     @GET
-    @Path("/itemById/{id}")
+    @Path("/getById/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public ItemDto getItemById(@PathParam("id") String id) {
-//        System.out.println(entityManager);
-        return itemTransformer.toDto(itemDao.findOne("id",id));
+        return itemTransformer.toDto(itemDao.findOne("id",new ObjectId(id)));
     }
 
     @GET
-    @Path("/itemByName/{name}")
+    @Path("/getByName/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public ItemDto getItemByName(@PathParam("name") String aName) {
-//        System.out.println(entityManager);
         return itemTransformer.toDto(itemDao.findOne("name",aName));
     }
 

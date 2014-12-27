@@ -5,6 +5,7 @@ import com.google.inject.Module;
 import com.google.inject.persist.PersistService;
 import com.google.inject.persist.jpa.JpaPersistModule;
 import com.webward.shido.modules.MongoDbModule;
+import com.webward.shido.modules.PojoModule;
 import com.webward.shido.modules.ResourcesModule;
 import org.jboss.resteasy.plugins.guice.GuiceResteasyBootstrapServletContextListener;
 
@@ -22,6 +23,7 @@ public class TestServletContextListener  extends GuiceResteasyBootstrapServletCo
         List<Module> modules = new ArrayList<>();
 //        modules.add(new JpaPersistModule("testJpaDb"));
 //            modules.add(new GuiceServletModule());
+        modules.add(new PojoModule());
         modules.add(new MongoDbModule());
         modules.add(new ResourcesModule());
         return modules;
