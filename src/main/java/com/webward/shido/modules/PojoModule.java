@@ -8,7 +8,6 @@ import com.webward.shido.transformer.UserTransformer;
 import com.webward.shido.utils.CalendarUtil;
 import com.webward.shido.utils.EncryptionUtil;
 import com.webward.shido.utils.MailSenderUtil;
-import com.webward.shido.utils.TestGuiceUtil;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jasypt.digest.StandardStringDigester;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -29,7 +28,6 @@ public class PojoModule implements Module {
         binder.bind(UserTransformer.class);
         binder.bind(EncryptionUtil.class);
         binder.bind(MailSenderUtil.class);
-        binder.bind(TestGuiceUtil.class);
         binder.bind(CalendarUtil.class);
         binder.bind(StandardPBEStringEncryptor.class);
         binder.bind(StandardStringDigester.class);

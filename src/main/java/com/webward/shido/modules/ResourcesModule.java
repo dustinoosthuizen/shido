@@ -15,7 +15,5 @@ public class ResourcesModule implements Module{
         binder.bind(UserResource.class);
         binder.bind(RegistrationResource.class);
         binder.bind(LoginResource.class);
-        binder.bind(TestResource.class);
-//        binder.bind(TestResource.class);
     }
 }
